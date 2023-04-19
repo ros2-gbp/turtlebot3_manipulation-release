@@ -1,0 +1,11 @@
+ros-foxy-turtlebot3-manipulation-hardware (2.1.0-1focal) focal; urgency=high
+
+  * Support ROS2 Foxy
+  * MoveIt environment configured (backported from Humble)
+  * use ros2_control framework instead of ROBOTIS custom library
+  * removed dependency to turtlebot3_*` and open_manipulator packages
+  * Contributors: Hye-Jong KIM, Darby Lim, Will Son
+
+ -- Will Son <willson@robotis.com>  Thu, 13 Oct 2022 15:00:00 -0000
+
+
