@@ -1,0 +1,12 @@
+Source: ros-foxy-turtlebot3-manipulation-teleop
+Section: misc
+Priority: optional
+Maintainer: Will Son <willson@robotis.com>
+Build-Depends: debhelper (>= 9.0.0), ros-foxy-ament-cmake, ros-foxy-ament-lint-auto <!nocheck>, ros-foxy-ament-lint-common <!nocheck>, ros-foxy-control-msgs, ros-foxy-geometry-msgs, ros-foxy-nav-msgs, ros-foxy-rclcpp, ros-foxy-sensor-msgs, ros-foxy-turtlebot3-manipulation-bringup, ros-foxy-turtlebot3-manipulation-description, ros-foxy-turtlebot3-manipulation-moveit-config, ros-foxy-ros-workspace
+Homepage: https://emanual.robotis.com/docs/en/platform/turtlebot3/manipulation/
+Standards-Version: 3.9.2
+
+Package: ros-foxy-turtlebot3-manipulation-teleop
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-foxy-control-msgs, ros-foxy-geometry-msgs, ros-foxy-nav-msgs, ros-foxy-rclcpp, ros-foxy-sensor-msgs, ros-foxy-turtlebot3-manipulation-bringup, ros-foxy-turtlebot3-manipulation-description, ros-foxy-turtlebot3-manipulation-moveit-config, ros-foxy-ros-workspace
+Description: ROS2 Package of the turtlebot3_manipulation_teleop
