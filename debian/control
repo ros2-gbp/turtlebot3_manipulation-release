@@ -1,0 +1,12 @@
+Source: ros-humble-turtlebot3-manipulation-hardware
+Section: misc
+Priority: optional
+Maintainer: Will Son <willson@robotis.com>
+Build-Depends: debhelper (>= 9.0.0), ros-humble-ament-cmake, ros-humble-dynamixel-sdk, ros-humble-hardware-interface, ros-humble-pluginlib, ros-humble-rclcpp, ros-humble-ros-workspace
+Homepage: https://emanual.robotis.com/docs/en/platform/turtlebot3/manipulation/
+Standards-Version: 3.9.2
+
+Package: ros-humble-turtlebot3-manipulation-hardware
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-humble-dynamixel-sdk, ros-humble-hardware-interface, ros-humble-pluginlib, ros-humble-rclcpp, ros-humble-ros-workspace
+Description: ROS 2 package for turtlebot3_manipulation_hardware
