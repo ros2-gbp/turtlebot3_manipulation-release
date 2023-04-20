@@ -21,8 +21,7 @@ import yaml
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
-from launch_ros.actions import ComposableNodeContainer
-from launch_ros.descriptions import ComposableNode
+from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 import xacro
 
@@ -64,6 +63,15 @@ def generate_launch_description():
         "robot_description_semantic": robot_description_semantic_config
     }
 
+        # kinematics yaml
+    kinematics_yaml_path = os.path.join(
+        get_package_share_directory("turtlebot3_manipulation_moveit_config"),
+        "config",
+        "kinematics.yaml",
+    )
+    with open(kinematics_yaml_path, "r") as file:
+        kinematics_yaml = yaml.safe_load(file)
+
     # Get parameters for the Servo node
     servo_yaml_path = os.path.join(
         get_package_share_directory("turtlebot3_manipulation_moveit_config"),
@@ -77,27 +85,17 @@ def generate_launch_description():
         return None
 
     # Launch as much as possible in components
-    container = ComposableNodeContainer(
-        name="turtlebot_manipulation_moveit_servo_container",
-        namespace="/",
-        package="rclcpp_components",
-        executable="component_container",
-        composable_node_descriptions=[
-            ComposableNode(
-                package="moveit_servo",
-                plugin="moveit_servo::ServoServer",
-                name="servo_server",
-                parameters=[
-                    {'use_gazebo': use_sim},
-                    servo_params,
-                    robot_description,
-                    robot_description_semantic,
-                ],
-                extra_arguments=[{"use_intra_process_comms": True}],
-            ),
-        ],
-        output="screen",
+    servo_node = Node(
+        package="moveit_servo",
+        executable="servo_node_main",
+        parameters=[
+            {'use_gazebo':use_sim},
+            servo_params,
+            robot_description,
+            robot_description_semantic,
+            kinematics_yaml,
+        ]
     )
-    ld.add_action(container)
+    ld.add_action(servo_node)
 
     return ld

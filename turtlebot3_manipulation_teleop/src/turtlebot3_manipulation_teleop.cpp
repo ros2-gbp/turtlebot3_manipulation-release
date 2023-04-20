@@ -55,9 +55,9 @@ KeyboardServo::KeyboardServo()
   nh_ = rclcpp::Node::make_shared("servo_keyboard_input");
 
   servo_start_client_ =
-    nh_->create_client<std_srvs::srv::Trigger>("/servo_server/start_servo");
+    nh_->create_client<std_srvs::srv::Trigger>("/servo_node/start_servo");
   servo_stop_client_ =
-    nh_->create_client<std_srvs::srv::Trigger>("/servo_server/stop_servo");
+    nh_->create_client<std_srvs::srv::Trigger>("/servo_node/stop_servo");
 
   base_twist_pub_ =
     nh_->create_publisher<geometry_msgs::msg::Twist>(BASE_TWIST_TOPIC, ROS_QUEUE_SIZE);
@@ -73,18 +73,6 @@ KeyboardServo::~KeyboardServo()
   stop_moveit_servo();
 }
 
-void KeyboardServo::print_usage()
-{
-  puts("Keyboard Teleoperation");
-  puts("---------------------------");
-  puts("Use [O] [K] [L] [;] keys to drive the TurtleBot3 base");
-  puts("[Space bar] key to stop the TurtleBot3 base");
-  // puts("Use s|x|z|c|a|d|f|v keys to Cartesian jog");
-  // puts("Use 1|2|3|4|q|w|e|r keys to joint jog.");
-  puts("Press [ESC] to quit.");
-  puts("---------------------------");
-}
-
 int KeyboardServo::keyLoop()
 {
   char c;
@@ -94,11 +82,17 @@ int KeyboardServo::keyLoop()
   connect_moveit_servo();
   start_moveit_servo();
 
+  puts("Reading from keyboard");
+  puts("---------------------------");
+  puts("Use o|k|l|; keys to move turtlebot base and use 'space' key to stop the base");
+  puts("Use s|x|z|c|a|d|f|v keys to Cartesian jog");
+  puts("Use 1|2|3|4|q|w|e|r keys to joint jog.");
+  puts("'ESC' to quit.");
+
   std::thread{std::bind(&KeyboardServo::pub, this)}.detach();
 
   bool servoing = true;
   while (servoing) {
-    print_usage();
     // get the next event from the keyboard
     try {
       input.readOne(&c);
@@ -116,125 +110,125 @@ int KeyboardServo::keyLoop()
           std::min(cmd_vel_.linear.x + BASE_LINEAR_VEL_STEP, BASE_LINEAR_VEL_MAX);
         cmd_vel_.linear.y = 0.0;
         cmd_vel_.linear.z = 0.0;
-        RCLCPP_INFO_STREAM(nh_->get_logger(), "LINEAR VEL : " << cmd_vel_.linear.x << ", ANGULAR VEL : " << cmd_vel_.angular.z);
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "LINEAR VEL : " << cmd_vel_.linear.x);
         break;
       case KEYCODE_L:  // KEYCODE_DOWN:
         cmd_vel_.linear.x =
           std::max(cmd_vel_.linear.x - BASE_LINEAR_VEL_STEP, -BASE_LINEAR_VEL_MAX);
         cmd_vel_.linear.y = 0.0;
         cmd_vel_.linear.z = 0.0;
-        RCLCPP_INFO_STREAM(nh_->get_logger(), "LINEAR VEL : " << cmd_vel_.linear.x << ", ANGULAR VEL : " << cmd_vel_.angular.z);
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "LINEAR VEL : " << cmd_vel_.linear.x);
         break;
       case KEYCODE_K:  // KEYCODE_LEFT:
         cmd_vel_.angular.x = 0.0;
         cmd_vel_.angular.y = 0.0;
         cmd_vel_.angular.z =
           std::min(cmd_vel_.angular.z + BASE_ANGULAR_VEL_STEP, BASE_ANGULAR_VEL_MAX);
-        RCLCPP_INFO_STREAM(nh_->get_logger(), "LINEAR VEL : " << cmd_vel_.linear.x << ", ANGULAR VEL : " << cmd_vel_.angular.z);
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "ANGULAR VEL : " << cmd_vel_.angular.z);
         break;
       case KEYCODE_SEMICOLON:  // KEYCODE_RIGHT:
         cmd_vel_.angular.x = 0.0;
         cmd_vel_.angular.y = 0.0;
         cmd_vel_.angular.z =
           std::max(cmd_vel_.angular.z - BASE_ANGULAR_VEL_STEP, -BASE_ANGULAR_VEL_MAX);
-        RCLCPP_INFO_STREAM(nh_->get_logger(), "LINEAR VEL : " << cmd_vel_.linear.x << ", ANGULAR VEL : " << cmd_vel_.angular.z);
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "ANGULAR VEL : " << cmd_vel_.angular.z);
         break;
       case KEYCODE_SPACE:
         cmd_vel_ = geometry_msgs::msg::Twist();
-        RCLCPP_INFO_STREAM(nh_->get_logger(), "LINEAR VEL : " << cmd_vel_.linear.x << ", ANGULAR VEL : " << cmd_vel_.angular.z);
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "STOP base");
         break;
-      // case KEYCODE_A:
-      //   task_msg_.twist.linear.z = ARM_TWIST_VEL;
-      //   publish_task_ = true;
-      //   RCLCPP_INFO_STREAM(nh_->get_logger(), "Arm z UP");
-      //   break;
-      // case KEYCODE_D:
-      //   task_msg_.twist.linear.z = -ARM_TWIST_VEL;
-      //   publish_task_ = true;
-      //   RCLCPP_INFO_STREAM(nh_->get_logger(), "Arm z DOWN");
-      //   break;
-      // case KEYCODE_S:
-      //   task_msg_.twist.linear.x = ARM_TWIST_VEL;
-      //   publish_task_ = true;
-      //   RCLCPP_INFO_STREAM(nh_->get_logger(), "Arm x Front");
-      //   break;
-      // case KEYCODE_X:
-      //   task_msg_.twist.linear.x = -ARM_TWIST_VEL;
-      //   publish_task_ = true;
-      //   RCLCPP_INFO_STREAM(nh_->get_logger(), "Arm x Back");
-      //   break;
-      // case KEYCODE_Z:
-      //   joint_msg_.joint_names.push_back("joint1");
-      //   joint_msg_.velocities.push_back(ARM_JOINT_VEL);
-      //   publish_joint_ = true;
-      //   RCLCPP_INFO_STREAM(nh_->get_logger(), "Arm Turn left.");
-      //   break;
-      // case KEYCODE_C:
-      //   joint_msg_.joint_names.push_back("joint1");
-      //   joint_msg_.velocities.push_back(-ARM_JOINT_VEL);
-      //   publish_joint_ = true;
-      //   RCLCPP_INFO_STREAM(nh_->get_logger(), "Arm Turn right.");
-      //   break;
-      // case KEYCODE_F:
-      //   joint_msg_.joint_names.push_back("joint4");
-      //   joint_msg_.velocities.push_back(ARM_JOINT_VEL);
-      //   publish_joint_ = true;
-      //   RCLCPP_INFO_STREAM(nh_->get_logger(), "Gripper Down.");
-      //   break;
-      // case KEYCODE_V:
-      //   joint_msg_.joint_names.push_back("joint4");
-      //   joint_msg_.velocities.push_back(-ARM_JOINT_VEL);
-      //   publish_joint_ = true;
-      //   RCLCPP_INFO_STREAM(nh_->get_logger(), "Gripper Up.");
-      //   break;
-      // case KEYCODE_1:
-      //   joint_msg_.joint_names.push_back("joint1");
-      //   joint_msg_.velocities.push_back(ARM_JOINT_VEL);
-      //   publish_joint_ = true;
-      //   RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint1 +");
-      //   break;
-      // case KEYCODE_2:
-      //   joint_msg_.joint_names.push_back("joint2");
-      //   joint_msg_.velocities.push_back(ARM_JOINT_VEL);
-      //   publish_joint_ = true;
-      //   RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint2 +");
-      //   break;
-      // case KEYCODE_3:
-      //   joint_msg_.joint_names.push_back("joint3");
-      //   joint_msg_.velocities.push_back(ARM_JOINT_VEL);
-      //   publish_joint_ = true;
-      //   RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint3 +");
-      //   break;
-      // case KEYCODE_4:
-      //   joint_msg_.joint_names.push_back("joint4");
-      //   joint_msg_.velocities.push_back(ARM_JOINT_VEL);
-      //   publish_joint_ = true;
-      //   RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint4 +");
-      //   break;
-      // case KEYCODE_Q:
-      //   joint_msg_.joint_names.push_back("joint1");
-      //   joint_msg_.velocities.push_back(-ARM_JOINT_VEL);
-      //   publish_joint_ = true;
-      //   RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint1 -");
-      //   break;
-      // case KEYCODE_W:
-      //   joint_msg_.joint_names.push_back("joint2");
-      //   joint_msg_.velocities.push_back(-ARM_JOINT_VEL);
-      //   publish_joint_ = true;
-      //   RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint2 -");
-      //   break;
-      // case KEYCODE_E:
-      //   joint_msg_.joint_names.push_back("joint3");
-      //   joint_msg_.velocities.push_back(-ARM_JOINT_VEL);
-      //   publish_joint_ = true;
-      //   RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint3 -");
-      //   break;
-      // case KEYCODE_R:
-      //   joint_msg_.joint_names.push_back("joint4");
-      //   joint_msg_.velocities.push_back(-ARM_JOINT_VEL);
-      //   publish_joint_ = true;
-      //   RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint4 -");
-      //   break;
+      case KEYCODE_A:
+        task_msg_.twist.linear.z = ARM_TWIST_VEL;
+        publish_task_ = true;
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "Arm z UP");
+        break;
+      case KEYCODE_D:
+        task_msg_.twist.linear.z = -ARM_TWIST_VEL;
+        publish_task_ = true;
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "Arm z DOWN");
+        break;
+      case KEYCODE_S:
+        task_msg_.twist.linear.x = ARM_TWIST_VEL;
+        publish_task_ = true;
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "Arm x Front");
+        break;
+      case KEYCODE_X:
+        task_msg_.twist.linear.x = -ARM_TWIST_VEL;
+        publish_task_ = true;
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "Arm x Back");
+        break;
+      case KEYCODE_Z:
+        joint_msg_.joint_names.push_back("joint1");
+        joint_msg_.velocities.push_back(ARM_JOINT_VEL);
+        publish_joint_ = true;
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "Arm Turn left.");
+        break;
+      case KEYCODE_C:
+        joint_msg_.joint_names.push_back("joint1");
+        joint_msg_.velocities.push_back(-ARM_JOINT_VEL);
+        publish_joint_ = true;
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "Arm Turn right.");
+        break;
+      case KEYCODE_F:
+        joint_msg_.joint_names.push_back("joint4");
+        joint_msg_.velocities.push_back(ARM_JOINT_VEL);
+        publish_joint_ = true;
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "Gripper Down.");
+        break;
+      case KEYCODE_V:
+        joint_msg_.joint_names.push_back("joint4");
+        joint_msg_.velocities.push_back(-ARM_JOINT_VEL);
+        publish_joint_ = true;
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "Gripper Up.");
+        break;
+      case KEYCODE_1:
+        joint_msg_.joint_names.push_back("joint1");
+        joint_msg_.velocities.push_back(ARM_JOINT_VEL);
+        publish_joint_ = true;
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint1 +");
+        break;
+      case KEYCODE_2:
+        joint_msg_.joint_names.push_back("joint2");
+        joint_msg_.velocities.push_back(ARM_JOINT_VEL);
+        publish_joint_ = true;
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint2 +");
+        break;
+      case KEYCODE_3:
+        joint_msg_.joint_names.push_back("joint3");
+        joint_msg_.velocities.push_back(ARM_JOINT_VEL);
+        publish_joint_ = true;
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint3 +");
+        break;
+      case KEYCODE_4:
+        joint_msg_.joint_names.push_back("joint4");
+        joint_msg_.velocities.push_back(ARM_JOINT_VEL);
+        publish_joint_ = true;
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint4 +");
+        break;
+      case KEYCODE_Q:
+        joint_msg_.joint_names.push_back("joint1");
+        joint_msg_.velocities.push_back(-ARM_JOINT_VEL);
+        publish_joint_ = true;
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint1 -");
+        break;
+      case KEYCODE_W:
+        joint_msg_.joint_names.push_back("joint2");
+        joint_msg_.velocities.push_back(-ARM_JOINT_VEL);
+        publish_joint_ = true;
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint2 -");
+        break;
+      case KEYCODE_E:
+        joint_msg_.joint_names.push_back("joint3");
+        joint_msg_.velocities.push_back(-ARM_JOINT_VEL);
+        publish_joint_ = true;
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint3 -");
+        break;
+      case KEYCODE_R:
+        joint_msg_.joint_names.push_back("joint4");
+        joint_msg_.velocities.push_back(-ARM_JOINT_VEL);
+        publish_joint_ = true;
+        RCLCPP_INFO_STREAM(nh_->get_logger(), "Joint4 -");
+        break;
       case KEYCODE_ESC:
         RCLCPP_INFO_STREAM(nh_->get_logger(), "quit");
         servoing = false;
