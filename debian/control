@@ -1,0 +1,12 @@
+Source: ros-humble-turtlebot3-manipulation-bringup
+Section: misc
+Priority: optional
+Maintainer: Will Son <willson@robotis.com>
+Build-Depends: debhelper (>= 9.0.0), ros-humble-ament-cmake, ros-humble-ros-workspace
+Homepage: https://emanual.robotis.com/docs/en/platform/turtlebot3/manipulation/
+Standards-Version: 3.9.2
+
+Package: ros-humble-turtlebot3-manipulation-bringup
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-humble-gazebo-ros, ros-humble-gripper-controllers, ros-humble-robot-state-publisher, ros-humble-ros2-control, ros-humble-ros2-controllers, ros-humble-rviz2, ros-humble-turtlebot3-manipulation-description, ros-humble-xacro, ros-humble-ros-workspace
+Description: ROS 2 package for turtlebot3_manipulation
