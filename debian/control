@@ -1,0 +1,12 @@
+Source: ros-humble-turtlebot3-manipulation-moveit-config
+Section: misc
+Priority: optional
+Maintainer: Pyo <pyo@robotis.com>
+Build-Depends: debhelper (>= 9.0.0), ros-humble-ament-cmake, ros-humble-ros-workspace
+Homepage: https://emanual.robotis.com/docs/en/platform/turtlebot3/manipulation/
+Standards-Version: 3.9.2
+
+Package: ros-humble-turtlebot3-manipulation-moveit-config
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-humble-joint-state-publisher, ros-humble-joint-state-publisher-gui, ros-humble-moveit-kinematics, ros-humble-moveit-planners, ros-humble-moveit-ros-move-group, ros-humble-moveit-ros-visualization, ros-humble-moveit-ros-warehouse, ros-humble-moveit-simple-controller-manager, ros-humble-robot-state-publisher, ros-humble-rviz-common, ros-humble-rviz-default-plugins, ros-humble-rviz2, ros-humble-srdfdom, ros-humble-tf2-ros, ros-humble-turtlebot3-manipulation-description, ros-humble-warehouse-ros-mongo, ros-humble-xacro, ros-humble-ros-workspace
+Description: An automatically generated package with all the configuration and launch files for using the turtlebot3_manipulation with the MoveIt Motion Planning Framework
