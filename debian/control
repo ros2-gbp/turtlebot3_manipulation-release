@@ -1,0 +1,12 @@
+Source: ros-jazzy-turtlebot3-manipulation-cartographer
+Section: misc
+Priority: optional
+Maintainer: Pyo <pyo@robotis.com>
+Build-Depends: debhelper (>= 9.0.0), ros-jazzy-ament-cmake, ros-jazzy-ros-workspace
+Homepage: https://emanual.robotis.com/docs/en/platform/turtlebot3/manipulation/
+Standards-Version: 3.9.2
+
+Package: ros-jazzy-turtlebot3-manipulation-cartographer
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-jazzy-cartographer-ros, ros-jazzy-rviz2, ros-jazzy-ros-workspace
+Description: ROS 2 launch scripts for cartographer
