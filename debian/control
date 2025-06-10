@@ -1,0 +1,12 @@
+Source: ros-jazzy-turtlebot3-manipulation-description
+Section: misc
+Priority: optional
+Maintainer: Pyo <pyo@robotis.com>
+Build-Depends: debhelper (>= 9.0.0), ros-jazzy-ament-cmake, ros-jazzy-ros-workspace
+Homepage: https://emanual.robotis.com/docs/en/platform/turtlebot3/manipulation/
+Standards-Version: 3.9.2
+
+Package: ros-jazzy-turtlebot3-manipulation-description
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-jazzy-joint-state-publisher, ros-jazzy-joint-state-publisher-gui, ros-jazzy-robot-state-publisher, ros-jazzy-rviz2, ros-jazzy-ros-workspace
+Description: ROS 2 package for turtlebot3_manipulation_description
