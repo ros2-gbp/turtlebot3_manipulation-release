@@ -1,0 +1,12 @@
+Source: ros-jazzy-turtlebot3-manipulation
+Section: misc
+Priority: optional
+Maintainer: Pyo <pyo@robotis.com>
+Build-Depends: debhelper (>= 9.0.0), ros-jazzy-ament-cmake, ros-jazzy-ros-workspace
+Homepage: https://emanual.robotis.com/docs/en/platform/turtlebot3/manipulation/
+Standards-Version: 3.9.2
+
+Package: ros-jazzy-turtlebot3-manipulation
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-jazzy-turtlebot3-manipulation-bringup, ros-jazzy-turtlebot3-manipulation-cartographer, ros-jazzy-turtlebot3-manipulation-description, ros-jazzy-turtlebot3-manipulation-hardware, ros-jazzy-turtlebot3-manipulation-moveit-config, ros-jazzy-turtlebot3-manipulation-navigation2, ros-jazzy-turtlebot3-manipulation-teleop, ros-jazzy-ros-workspace
+Description: ROS 2 package for turtlebot3_manipulation
