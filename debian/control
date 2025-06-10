@@ -1,0 +1,12 @@
+Source: ros-jazzy-turtlebot3-manipulation-teleop
+Section: misc
+Priority: optional
+Maintainer: Pyo <pyo@robotis.com>
+Build-Depends: debhelper (>= 9.0.0), ros-jazzy-ament-cmake, ros-jazzy-control-msgs, ros-jazzy-geometry-msgs, ros-jazzy-nav-msgs, ros-jazzy-rclcpp, ros-jazzy-sensor-msgs, ros-jazzy-turtlebot3-manipulation-bringup, ros-jazzy-turtlebot3-manipulation-description, ros-jazzy-turtlebot3-manipulation-moveit-config, ros-jazzy-ros-workspace
+Homepage: https://emanual.robotis.com/docs/en/platform/turtlebot3/manipulation/
+Standards-Version: 3.9.2
+
+Package: ros-jazzy-turtlebot3-manipulation-teleop
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-jazzy-control-msgs, ros-jazzy-geometry-msgs, ros-jazzy-nav-msgs, ros-jazzy-rclcpp, ros-jazzy-sensor-msgs, ros-jazzy-turtlebot3-manipulation-bringup, ros-jazzy-turtlebot3-manipulation-description, ros-jazzy-turtlebot3-manipulation-moveit-config, ros-jazzy-ros-workspace
+Description: Ros2 Package of the turtlebot3_manipulation_teleop
