@@ -1,0 +1,24 @@
+ros-jazzy-turtlebot3-manipulation-hardware (2.2.1-1bookworm) bookworm; urgency=high
+
+  * None
+
+ -- Pyo <pyo@robotis.com>  Tue, 27 May 2025 15:00:00 -0000
+
+ros-jazzy-turtlebot3-manipulation-hardware (2.2.0-1bookworm) bookworm; urgency=high
+
+  * Resolved the issue where teleoperation was not functioning on the actual robot
+  * Contributors: Sungho Woo
+
+ -- Pyo <pyo@robotis.com>  Mon, 31 Mar 2025 15:00:00 -0000
+
+ros-jazzy-turtlebot3-manipulation-hardware (2.1.1-1bookworm) bookworm; urgency=high
+
+  * Support ROS 2 Humble
+  * MoveIt environment configured
+  * use ros2_control framework instead of ROBOTIS custom library
+  * removed dependency to turtlebot3_*` and open_manipulator packages
+  * Contributors: Hye-Jong KIM, Darby Lim, Will Son
+
+ -- Pyo <pyo@robotis.com>  Thu, 13 Oct 2022 15:00:00 -0000
+
+

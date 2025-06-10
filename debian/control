@@ -1,0 +1,12 @@
+Source: ros-jazzy-turtlebot3-manipulation-hardware
+Section: misc
+Priority: optional
+Maintainer: Pyo <pyo@robotis.com>
+Build-Depends: debhelper (>= 9.0.0), ros-jazzy-ament-cmake, ros-jazzy-dynamixel-sdk, ros-jazzy-hardware-interface, ros-jazzy-pluginlib, ros-jazzy-rclcpp, ros-jazzy-ros-workspace
+Homepage: https://emanual.robotis.com/docs/en/platform/turtlebot3/manipulation/
+Standards-Version: 3.9.2
+
+Package: ros-jazzy-turtlebot3-manipulation-hardware
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-jazzy-dynamixel-sdk, ros-jazzy-hardware-interface, ros-jazzy-pluginlib, ros-jazzy-rclcpp, ros-jazzy-ros-workspace
+Description: ROS 2 package for turtlebot3_manipulation_hardware
