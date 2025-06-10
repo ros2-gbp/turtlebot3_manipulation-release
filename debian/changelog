@@ -1,0 +1,56 @@
+ros-jazzy-turtlebot3-manipulation-bringup (2.2.1-1bookworm) bookworm; urgency=high
+
+  * Removed the TurtleBot3 Manipulation Gazebo simulation
+  * Contributors: ChanHyeong Lee
+
+ -- Pyo <pyo@robotis.com>  Tue, 27 May 2025 15:00:00 -0000
+
+ros-jazzy-turtlebot3-manipulation-bringup (2.2.0-1bookworm) bookworm; urgency=high
+
+  * Updated maintainer information
+  * Contributors: Sungho Woo
+
+ -- Pyo <pyo@robotis.com>  Mon, 31 Mar 2025 15:00:00 -0000
+
+ros-jazzy-turtlebot3-manipulation-bringup (2.1.1-1bookworm) bookworm; urgency=high
+
+  * Support ROS 2 Humble
+  * MoveIt environment configured
+  * use ros2_control framework instead of ROBOTIS custom library
+  * removed dependency to turtlebot3_*` and open_manipulator packages
+  * Contributors: Hye-Jong KIM, Darby Lim, Will Son
+
+ -- Pyo <pyo@robotis.com>  Thu, 13 Oct 2022 15:00:00 -0000
+
+ros-jazzy-turtlebot3-manipulation-bringup (1.1.0-1bookworm) bookworm; urgency=high
+
+  * updated to sync for new open_manipulator_package
+  * added params for ar_marker
+  * added launch file to run demo
+  * added gripper controller
+  * added smach and smach_ros
+  * added waffle model, ar marker argument, ar tracker, prefix
+  * added joint control for platform
+  * added filter
+  * changed logerr to logwarn
+  * changed joint trajectory variable
+  * updated params releated to odom
+  * Contributors: Darby Lim, Pyo
+
+ -- Pyo <pyo@robotis.com>  Thu, 07 Feb 2019 15:00:00 -0000
+
+ros-jazzy-turtlebot3-manipulation-bringup (1.0.1-1bookworm) bookworm; urgency=high
+
+  * added dependency package option
+  * Contributors: Pyo
+
+ -- Pyo <pyo@robotis.com>  Sun, 03 Jun 2018 15:00:00 -0000
+
+ros-jazzy-turtlebot3-manipulation-bringup (1.0.0-1bookworm) bookworm; urgency=high
+
+  * updated the CHANGELOG and version to release binary packages
+  * Contributors: Darby Lim, Pyo
+
+ -- Pyo <pyo@robotis.com>  Thu, 31 May 2018 15:00:00 -0000
+
+
